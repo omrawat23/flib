@@ -1,8 +1,7 @@
 
 "use client"
-
-import React, { useState, useRef, useEffect,MouseEventHandler  } from 'react';
-import { FiHome, FiSettings, FiUsers, FiPlus, FiMinus, FiX } from 'react-icons/fi'; // Import icons
+import React, { useState, useRef, useEffect } from 'react';
+import { FiHome, FiSettings, FiUsers, FiPlus, FiX, FiCheck } from 'react-icons/fi'; // Import icons
 import CheckoutPage from '@/components/CheckoutPage'; // Import CheckoutPage component
 import { Product } from '@/app/types';
 import { useStore } from '@/store/store';
@@ -45,29 +44,10 @@ const PageWithSidebar: React.FC<Props> = ({ cartItemCount }) => {
     setIsModalOpen(false);
   };
 
-  const handleClickOutside = (event: MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      closeModal();
-    }
-  };
-  
-
-  useEffect(() => {
-    if (isModalOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isModalOpen]);
-  
-
   return (
-    <div className="flex">
+    <div className="md:flex flex-col md:flex-row">
       {/* Sidebar */}
-      <div className="fixed left-0 top-12 h-full w-64 bg-gray-200 p-4">
+      <div className="hidden md:block fixed left-0 top-37 md:top-500 h-full md:w-64 w-full md:max-w-xs bg-gray-200 p-4 overflow-y-auto z-10">
         <h2 className="text-xl font-bold">Sidebar</h2>
         <ul className="mt-4 space-y-2">
           <li className="flex items-center py-2">
@@ -100,7 +80,7 @@ const PageWithSidebar: React.FC<Props> = ({ cartItemCount }) => {
         <p>This is the main content of the page.</p>
 
         {/* All products section */}
-        <div className="grid grid-cols-3 gap-8 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
           {products.map((product) => (
             <div
               key={product.id}
@@ -114,28 +94,19 @@ const PageWithSidebar: React.FC<Props> = ({ cartItemCount }) => {
                   <span className="block text-gray-600">Price: ${product.price}</span>
                 </div>
                 <div className="flex items-center mt-4">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      addToCart(product);
-                    }}
-                    className="bg-green-500 text-white px-4 py-2 rounded-md mr-2 transition-transform transform hover:scale-110"
-                  >
-                    <FiPlus />
-                  </button>
-                  <input
-                    type="number"
-                    min="50"
-                    value={product.quantity}
-                    onChange={(e) => updateQuantity(product.id, parseInt(e.target.value))}
-                    className="w-16 h-10 text-center"
-                  />
-                  <button
-                    onClick={() => updateQuantity(product.id, product.quantity - 1)}
-                    className="bg-green-500 text-white px-4 py-2 rounded-md ml-2 transition-transform transform hover:scale-110"
-                  >
-                    <FiMinus />
-                  </button>
+                  {cartItems.find(item => item.id === product.id) ? (
+                    <FiCheck className="text-green-500 mr-2" />
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(product);
+                      }}
+                      className="bg-green-500 text-white px-4 py-2 rounded-md mr-2 transition-transform transform hover:scale-110"
+                    >
+                      <FiPlus />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -143,9 +114,12 @@ const PageWithSidebar: React.FC<Props> = ({ cartItemCount }) => {
         </div>
 
       
-{isModalOpen && selectedProduct && (
-  <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50" ref={modalRef} onClick={handleClickOutside} >
-    <div className="bg-white p-8 rounded-lg flex">
+        {isModalOpen && selectedProduct && (
+  <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50" ref={modalRef}>
+    <div className="bg-white p-8 rounded-lg flex relative"> {/* Added relative positioning */}
+      <button onClick={closeModal} className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 mt-2 mr-2 text-2xl">
+        <FiX />
+      </button>
       <div className="mr-8">
         <img src={selectedProduct.imageUrl} alt={selectedProduct.name} className="w-64 h-64 object-contain mb-4 rounded-md" />
       </div>
@@ -164,14 +138,12 @@ const PageWithSidebar: React.FC<Props> = ({ cartItemCount }) => {
           >
             Add to Cart
           </button>
-          <button onClick={closeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-            <FiX />
-          </button>
         </div>
       </div>
     </div>
   </div>
 )}
+
 
 
       </div>

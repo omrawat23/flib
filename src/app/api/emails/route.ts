@@ -8,9 +8,6 @@ import { Product } from '@/app/types';
 import { Rewind } from 'lucide-react';
 
 
-
-
-
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 
@@ -18,7 +15,9 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req: Request, res: Response) {
   try {
     const cartItems: Product[] = []; // Define or import cartItems
-    const formData = await req.formData()
+    const formData = await req.json();
+
+    console.log(formData);
     
 
    
@@ -28,10 +27,10 @@ export async function POST(req: Request, res: Response) {
       to: 'omraw29@gmail.com',
       subject: 'Hello world',
       text: 'This is the text version of the email.', 
-      react: EmailTemplate({ firstName: 'John', formData}), 
+      react: EmailTemplate({ firstName: 'John', }), 
     });
 
-    return Response.json(data);
+    return Response.json(formData);
   } catch (error) {
     return Response.json({ error });
   }

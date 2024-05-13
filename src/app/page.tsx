@@ -1,3 +1,4 @@
+
 import { Icons } from '@/components/Icons'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import Phone from '@/components/Phone'
@@ -11,14 +12,9 @@ export default function Home() {
   return (
     <div className='bg-slate-50 grainy-light'>
       <section>
-        <MaxWidthWrapper className='pb-24 pt-10 lg:grid lg:grid-cols-3 sm:pb-32 lg:gap-x-0 xl:gap-x-8 lg:pt-24 xl:pt-32 lg:pb-52'>
+        <MaxWidthWrapper className='pb-10 pt-10 lg:grid lg:grid-cols-3 sm:pb-32 lg:gap-x-8 lg:pt-24 lg:pb-52'>
           <div className='col-span-2 px-6 lg:px-0 lg:pt-4'>
             <div className='relative mx-auto text-center lg:text-left flex flex-col items-center lg:items-start'>
-              <div className='absolute w-28 left-0 -top-20 hidden lg:block'>
-                {/* i forgot this div right here in the video, it's purely visual gradient and looks nice */}
-                <div className='absolute inset-x-0 bottom-0 bg-gradient-to-t via-slate-50/50 from-slate-50 h-28' />
-                <img src='' alt=''className='w-full' />
-              </div>
               <h1 className='relative w-fit tracking-tight text-balance mt-16 font-bold !leading-tight text-gray-900 text-5xl md:text-6xl lg:text-7xl'>
                 Your Image on a{' '}
                 <span className='bg-green-600 px-2 text-white'>Custom</span>{' '}
@@ -47,56 +43,25 @@ export default function Home() {
                   </li>
                 </div>
               </ul>
-              
-
-
-              
 
               <div className='mt-12 flex flex-col sm:flex-row items-center sm:items-start gap-5'>
-              <div className='flex justify-between items-center'>
-              <Link
-                  href='/api/auth/login'>
+                <Link href='/api/auth/login'>
                   <button className='bg-green-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-green-700 transition duration-300'>
-        Get Started
-      </button></Link></div>
-                </div>
-
-                
-
-                <div className='flex flex-col justify-between items-center sm:items-start'>
-              
-                  
-                  <div className='flex justify-between items-center'>
-                  
-
-                  </div>
-                </div>
+                    Get Started
+                  </button>
+                </Link>
               </div>
             </div>
-          
+          </div>
 
-          
-
-          <div className='col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit'>
-            <div className='relative md:max-w-xl'>
-              <img
-                src='' alt=''
-                className='absolute w-40 lg:w-52 left-56 -top-20 select-none hidden sm:block lg:hidden xl:block'
-              />
-              <img
-                src='' alt=''
-                className='absolute w-20 -left-6 -bottom-6 select-none'
-              />
+          <div className='col-span-full lg:col-span-1 w-full flex justify-center px-6 sm:px-16 mt-16 lg:mx-0 lg:mt-20 h-fit'>
+            <div className='relative w-full max-w-xl'>
               <Phone className='w-64' imgSrc='https://i.pinimg.com/736x/b6/6d/22/b66d22a8b57900e75cbab27192cd58a3.jpg' />
             </div>
           </div>
         </MaxWidthWrapper>
       </section>
 
-
-      
-
-      {/* value proposition section */}
       <section className='bg-slate-100 grainy-dark py-24'>
         <MaxWidthWrapper className='flex flex-col items-center gap-16 sm:gap-32'>
           <div className='flex flex-col lg:flex-row items-center gap-4 sm:gap-6'>
@@ -108,9 +73,9 @@ export default function Home() {
               </span>{' '}
               say
             </h2>
-            <img src='' alt='' className='w-24 order-0 lg:order-2' />
+            <img src='https://via.placeholder.com/150' alt='' className='w-24 order-0 lg:order-2' />
           </div>
-         {/* first user review */}
+
           <div className='mx-auto grid max-w-2xl grid-cols-1 px-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 gap-y-16'>
             <div className='flex flex-auto flex-col gap-4 lg:pr-8 xl:pr-20'>
               <div className='flex gap-0.5 mb-2'>
@@ -134,7 +99,7 @@ export default function Home() {
               <div className='flex gap-4 mt-2'>
                 <img
                   className='rounded-full h-12 w-12 object-cover'
-                  src='https://i.pinimg.com/736x/b6/6d/22/b66d22a8b57900e75cbab27192cd58a3.jpg'
+                  src='https://via.placeholder.com/150'
                   alt='user'
                 />
                 <div className='flex flex-col'>
@@ -146,9 +111,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
 
-            {/* second user review */}
             <div className='flex flex-auto flex-col gap-4 lg:pr-8 xl:pr-20'>
               <div className='flex gap-0.5 mb-2'>
                 <Star className='h-5 w-5 text-green-600 fill-green-600' />
@@ -172,7 +135,7 @@ export default function Home() {
               <div className='flex gap-4 mt-2'>
                 <img
                   className='rounded-full h-12 w-12 object-cover'
-                  src='https://i.pinimg.com/736x/b6/6d/22/b66d22a8b57900e75cbab27192cd58a3.jpg'
+                  src='https://via.placeholder.com/150'
                   alt='user'
                 />
                 <div className='flex flex-col'>
@@ -185,7 +148,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
         </MaxWidthWrapper>
 
         <div className='pt-16'>
@@ -195,7 +157,6 @@ export default function Home() {
           <Reviews />
         </div>
       </section>
-      
 
       <section>
         <MaxWidthWrapper className='py-24'>

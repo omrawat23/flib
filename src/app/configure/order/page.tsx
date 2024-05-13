@@ -1,9 +1,11 @@
 "use client"
-// orderForm.tsx
+
+
 import React, { useState, useEffect } from 'react';
 import { Product } from '@/app/types';
 import CheckoutPage from '@/components/CheckoutPage';
 import { useStore } from '@/store/store';
+import Link from 'next/link';
 
 export interface FormData {
   swagBoxes: number;
@@ -23,7 +25,6 @@ interface Props {
 const OrderForm: React.FC<Props> = ({ updateQuantity, removeFromCart }) => {
   const { cartItems } = useStore();
 
-  // Initialize formData with default values
   const [formData, setFormData] = useState<FormData>({
     swagBoxes: 0,
     deliveryDate: '',
@@ -36,22 +37,18 @@ const OrderForm: React.FC<Props> = ({ updateQuantity, removeFromCart }) => {
 
   const [errors, setErrors] = useState<string[]>([]);
 
-  // Function to handle form data changes
   const handleFormDataChange = (key: keyof FormData, value: any) => {
     setFormData({ ...formData, [key]: value });
   };
 
-  // Function to calculate total estimate
   const calculateTotalEstimate = (cartItems: Product[]) => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
   useEffect(() => {
-    // Calculate total estimate when cartItems change
     const total = calculateTotalEstimate(cartItems);
   }, [cartItems]);
 
-  
   const isValidEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -62,8 +59,12 @@ const OrderForm: React.FC<Props> = ({ updateQuantity, removeFromCart }) => {
     return numericPhoneNumber.length === 10;
   };
 
+  const isFormFilled = formData.swagBoxes > 0 && formData.deliveryDate.trim() !== '' &&
+    formData.contactName.trim() !== '' && formData.contactEmail.trim() !== '' &&
+    isValidEmail(formData.contactEmail) && formData.contactPhone.trim() !== '' &&
+    isValidPhoneNumber(formData.contactPhone);
+
   const handleOrderRequest = async () => {
-    // Validation logic
     const validationErrors: string[] = [];
     if (!formData.swagBoxes) {
       validationErrors.push('Please specify the number of Swag Boxes.');
@@ -84,15 +85,13 @@ const OrderForm: React.FC<Props> = ({ updateQuantity, removeFromCart }) => {
     } else if (!isValidPhoneNumber(formData.contactPhone)) {
       validationErrors.push('Please provide a 10-digit phone number.');
     }
-  
-    // If there are validation errors, display them and prevent submission
+
     if (validationErrors.length > 0) {
       setErrors(validationErrors);
       return;
     }
-  
+
     try {
-      // Your order request logic here
       const response = await fetch('/api/emails', {
         method: 'POST',
         headers: {
@@ -100,26 +99,21 @@ const OrderForm: React.FC<Props> = ({ updateQuantity, removeFromCart }) => {
         },
         body: JSON.stringify(formData)
       });
-      console.log(formData);
-  
+
       if (response.ok) {
         console.log('Email sent successfully');
-        // Handle success, if needed
       } else {
         console.error('Error sending email');
-        // Handle error, if needed
       }
     } catch (error) {
       console.error('Error sending email:', error);
-      // Handle error, if needed
     }
   };
-  
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       {/* Order Request Form */}
-      <div className="flex-1 flex justify-center items-center bg-gray-200 p-8">
+      <div className="md:flex-1 md:flex justify-center items-center bg-gray-200 p-8">
         <div className="w-full max-w-lg">
           <h2 className="text-xl font-bold mb-4">Order Request Form</h2>
           <div className="space-y-4">
@@ -152,11 +146,13 @@ const OrderForm: React.FC<Props> = ({ updateQuantity, removeFromCart }) => {
               <input type="tel" value={formData.contactPhone} onChange={(e) => handleFormDataChange('contactPhone', e.target.value)} className="w-full bg-white rounded border border-gray-300 px-3 py-2" />
             </div>
           </div>
-          <button onClick={handleOrderRequest} className="bg-green-500 text-white px-4 py-2 rounded-md">Submit Request</button>
+          <Link href={isFormFilled ? "/configure/success" : "#"}>
+            <button onClick={isFormFilled ? handleOrderRequest : undefined} className="bg-green-500 text-white px-4 py-2 rounded-md mt-4 md:mt-0">Submit Request</button>
+          </Link>
         </div>
       </div>
       {/* CheckoutPage */}
-      <div className="fixed right-0 top-12 h-full w-68 bg-gray-200 p-4 overflow-y-auto">
+      <div className="md:fixed md:right-0 md:top-12 md:h-full md:w-68 bg-gray-200 p-4 overflow-y-auto">
         <CheckoutPage
           cartItems={cartItems}
           updateQuantity={updateQuantity}

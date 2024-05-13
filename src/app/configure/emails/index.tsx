@@ -15,13 +15,13 @@ export interface FormData {
 
 export interface EmailTemplateProps {
   firstName: string;
-  formData: FormData;
+  
+  
 }
 
 export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   firstName,
-  // cartItems,
-  formData
+
 
 }) => {
  
@@ -32,7 +32,7 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
       
 {/*     
       <p>CartItems: {JSON.stringify(cartItems)}</p> Display cartItems */}
-      <p>FormData: {JSON.stringify(formData)}</p>
+      {/* <p>FormData: {JSON.stringify(formData)}</p> */}
     </div>
   );
 };
