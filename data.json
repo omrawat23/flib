@@ -1,0 +1,12 @@
+{
+  "categories": [
+    { "id": 1, "name": "Shirts" },
+    { "id": 2, "name": "Hoodies" }
+    
+  ],
+  "products": [
+    { "id": 1, "name": "Product 1", "category": 1 },
+    { "id": 2, "name": "Product 2", "category": 2 }
+    
+  ]
+}
